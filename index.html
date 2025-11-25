@@ -1060,61 +1060,61 @@
         });
 
         // График скорости закрытия vs накопления
-        const speedCtx = document.getElementById('speedChart').getContext('2d');
-        new Chart(speedCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Скорость накопления', 'Скорость закрытия'],
-                datasets: [{
-                    label: 'Баг/месяц',
-                    data: [4, 14.8],
-                    backgroundColor: ['#f093fb', '#43e97b'],
-                    borderColor: ['#f093fb', '#43e97b'],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                ...chartOptions,
-                plugins: {
-                    ...chartOptions.plugins,
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.parsed.y} багов/месяц`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Баг/месяц'
-                        },
-                        ticks: {
-                            font: {
-                                size: isMobile() ? 10 : 12
-                            }
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            font: {
-                                size: isMobile() ? 10 : 12
-                            }
-                        }
-                    }
-                },
-                animation: {
-                    duration: 2000,
-                    easing: 'easeInOutQuart'
-                }
-            }
-        });
+        // const speedCtx = document.getElementById('speedChart').getContext('2d');
+        // new Chart(speedCtx, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: ['Скорость накопления', 'Скорость закрытия'],
+        //         datasets: [{
+        //             label: 'Баг/месяц',
+        //             data: [4, 14.8],
+        //             backgroundColor: ['#f093fb', '#43e97b'],
+        //             borderColor: ['#f093fb', '#43e97b'],
+        //             borderWidth: 2
+        //         }]
+        //     },
+        //     options: {
+        //         ...chartOptions,
+        //         plugins: {
+        //             ...chartOptions.plugins,
+        //             legend: {
+        //                 display: false
+        //             },
+        //             tooltip: {
+        //                 callbacks: {
+        //                     label: function(context) {
+        //                         return `${context.parsed.y} багов/месяц`;
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true,
+        //                 title: {
+        //                     display: true,
+        //                     text: 'Баг/месяц'
+        //                 },
+        //                 ticks: {
+        //                     font: {
+        //                         size: isMobile() ? 10 : 12
+        //                     }
+        //                 }
+        //             },
+        //             x: {
+        //                 ticks: {
+        //                     font: {
+        //                         size: isMobile() ? 10 : 12
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         animation: {
+        //             duration: 2000,
+        //             easing: 'easeInOutQuart'
+        //         }
+        //     }
+        // });
 
         // Таблица с разворачивающимися строками
         const tableBody = document.getElementById('tableBody');

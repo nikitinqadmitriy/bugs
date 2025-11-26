@@ -459,6 +459,86 @@
             font-weight: bold;
             color: #667eea;
         }
+        
+        .sp-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sp-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .sp-card .expand-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        
+        .sp-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .sp-tasks-list {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .sp-card.expanded .sp-tasks-list {
+            display: block;
+            animation: fadeInDown 0.3s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .sp-task-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+            transition: background 0.2s;
+        }
+        
+        .sp-task-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .sp-task-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        
+        .sp-task-link:hover {
+            text-decoration: underline;
+        }
+        
+        .sp-task-title {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
         /* Мобильная адаптация */
         
         @media (max-width: 768px) {
@@ -766,6 +846,63 @@
         <div class="chart-container" style="margin-bottom: 30px;">
             <div class="chart-title">Динамика роста backlog за год</div>
             <canvas id="backlogChart"></canvas>
+        </div>
+
+        <!-- Новая секция: Инфографика по Story Points -->
+        <div class="overview-section" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);">
+            <h2>📊 Анализ Story Points</h2>
+            <p class="subtitle" style="color: #2d3436; margin-bottom: 20px;">Объем работы для исправления всех багов в очереди</p>
+
+            <div class="overview-grid">
+                <div class="metric-card success" style="border-left-color: #00b894;">
+                    <div class="metric-label">Всего Story Points</div>
+                    <div class="metric-value" id="totalSP">167</div>
+                    <div class="metric-change negative">Story Points для всех задач</div>
+                </div>
+
+                <div class="metric-card" style="border-left-color: #0984e3;">
+                    <div class="metric-label">Средний объем на задачу</div>
+                    <div class="metric-value" id="avgSP">2.3</div>
+                    <div class="metric-change negative">Story Points/задача</div>
+                </div>
+
+                <div class="metric-card warning" style="border-left-color: #fdcb6e;">
+                    <div class="metric-label">Задач с оценкой</div>
+                    <div class="metric-value" id="tasksWithSP">72</div>
+                    <div class="metric-change negative">из 93 задач</div>
+                </div>
+
+                <div class="metric-card" style="border-left-color: #e17055;">
+                    <div class="metric-label">Задач без оценки</div>
+                    <div class="metric-value" id="tasksWithoutSP">21</div>
+                    <div class="metric-change positive">требуют оценки</div>
+                </div>
+            </div>
+
+            <!-- График распределения Story Points -->
+            <div class="chart-container" style="margin: 30px 0; background: white;">
+                <div class="chart-title">Распределение задач по Story Points</div>
+                <canvas id="spDistributionChart"></canvas>
+            </div>
+
+            <!-- Детальное распределение по SP -->
+            <div style="margin-top: 30px;">
+                <h3 style="color: #2d3436; margin-bottom: 15px;">📈 Детализация по Story Points</h3>
+                <div class="reasons-grid" id="spCardsContainer">
+                    <!-- Карточки будут сгенерированы через JavaScript -->
+                </div>
+            </div>
+
+            <div class="recommendations" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); margin-top: 30px;">
+                <h3 style="color: #e65100;">💡 Рекомендации по планированию</h3>
+                <ul>
+                    <li>Для закрытия всех багов потребуется примерно <strong>167 Story Points</strong> работы</li>
+                    <li>Если команда закрывает в среднем 20 SP в спринт, потребуется около <strong>8-9 спринтов</strong></li>
+                    <li>Рекомендуется начать с задач по 1-2 SP для быстрого эффекта</li>
+                    <li>Задачу на 20 SP (WEB-6338) лучше планировать отдельно как исследование</li>
+                    <li>21 задача без оценки SP требуют приоритизации и оценки перед включением в спринт</li>
+                </ul>
+            </div>
         </div>
 
         <h2>📋 Детальное распределение задач</h2>
@@ -1245,7 +1382,7 @@
                 description: "Если карта не загрузилась, лоадер скрывается, пользователю ничего не сообщается. Далее пользователь пытается взаимодействовать с картой и нам постоянно падают ошибки: YandexMapWasNotMountedError"
             },
             "WEB-1447": {
-                title: "Тег <h1> в категориях исправить (мобильная версия)",
+                title: "Тег H1 в категориях исправить (мобильная версия)",
                 description: "Необходимо исправить тег <h1> в категориях на мобильной версии"
             }
         };
@@ -1449,11 +1586,11 @@
         // Статистика
         const statsHtml = `
             <div class="stat-card">
-                <h3>Всего найдено задач с тегом "баг" в статусе "очередь"</h3>
+                <h3>Всего задач</h3>
                 <div class="value">${totalTasks}</div>
             </div>
             <div class="stat-card">
-                <h3>Дата последнего обновления данных</h3>
+                <h3>Дата последнего обновления</h3>
                 <div class="value" style="font-size: 18px;">25.11.2025</div>
             </div>
         `;
@@ -1478,6 +1615,21 @@
             animateValue(document.getElementById('totalBugs'), 0, 93, 1000);
             animateValue(document.getElementById('growth'), 0, 48, 1000);
         }, 500);
+
+        // Анимация чисел для Story Points (с поддержкой десятичных)
+        function animateValueFloat(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = start + (end - start) * progress;
+                element.textContent = current.toFixed(1);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
 
         // Определяем мобильное устройство
         function isMobile() {
@@ -1558,6 +1710,283 @@
                 }
             }
         });
+
+        // График распределения Story Points
+        const spDistributionCtx = document.getElementById('spDistributionChart').getContext('2d');
+        new Chart(spDistributionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['1 SP', '2 SP', '3 SP', '5 SP', '8 SP', '20 SP'],
+                datasets: [{
+                    label: 'Количество задач',
+                    data: [32, 23, 7, 8, 1, 1],
+                    backgroundColor: [
+                        '#00b894',
+                        '#0984e3',
+                        '#6c5ce7',
+                        '#fdcb6e',
+                        '#e17055',
+                        '#d63031'
+                    ],
+                    borderColor: [
+                        '#00b894',
+                        '#0984e3',
+                        '#6c5ce7',
+                        '#fdcb6e',
+                        '#e17055',
+                        '#d63031'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    ...chartOptions.plugins,
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const spValue = context.label.split(' ')[0];
+                                const taskCount = context.parsed.y;
+                                const totalSP = taskCount * parseInt(spValue);
+                                return `Задач: ${taskCount} | Всего SP: ${totalSP}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 5,
+                            font: {
+                                size: isMobile() ? 10 : 12
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Количество задач'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: isMobile() ? 10 : 12
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+
+        // Анимация чисел для Story Points
+        setTimeout(() => {
+            animateValue(document.getElementById('totalSP'), 0, 167, 1500);
+            animateValueFloat(document.getElementById('avgSP'), 0, 2.3, 1500);
+            animateValue(document.getElementById('tasksWithSP'), 0, 72, 1500);
+            animateValue(document.getElementById('tasksWithoutSP'), 0, 21, 1500);
+        }, 800);
+
+        // Структура данных с задачами по Story Points
+        // Данные из CSV файла "Задачи.csv"
+        const tasksBySP = {
+            1: {
+                description: "Самый частый объем работы. Мелкие исправления и косметические правки.",
+                tasks: [
+                    "WEB-1478", "WEB-1683", "WEB-4716", "WEB-5524", "WEB-5667", "WEB-5669",
+                    "WEB-5703", "WEB-5708", "WEB-5777", "WEB-5936", "WEB-5969", "WEB-6052",
+                    "WEB-6059", "WEB-6060", "WEB-6099", "WEB-6130", "WEB-6141", "WEB-6157",
+                    "WEB-6194", "WEB-6228", "WEB-6229", "WEB-6237", "WEB-6240", "WEB-6250",
+                    "WEB-6365", "WEB-6376", "WEB-6442", "WEB-6450", "WEB-6461", "WEB-6463",
+                    "WEB-6464", "WEB-6466"
+                ]
+            },
+            2: {
+                description: "Средние задачи, требующие больше времени на исправление.",
+                tasks: [
+                    "WEB-1416", "WEB-1740", "WEB-2724", "WEB-4374", "WEB-5300", "WEB-5401",
+                    "WEB-5417", "WEB-5423", "WEB-5457", "WEB-5573", "WEB-5578", "WEB-5594",
+                    "WEB-5771", "WEB-5826", "WEB-5924", "WEB-5955", "WEB-6142", "WEB-6179",
+                    "WEB-6246", "WEB-6336", "WEB-6364", "WEB-6400", "WEB-6437"
+                ]
+            },
+            3: {
+                description: "Более сложные задачи, требующие больше работы.",
+                tasks: [
+                    "WEB-5392", "WEB-5835", "WEB-5973", "WEB-6011", "WEB-6267", "WEB-6416",
+                    "WEB-6459"
+                ]
+            },
+            5: {
+                description: "Сложные задачи, требующие значительных усилий.",
+                tasks: [
+                    "WEB-5428", "WEB-5810", "WEB-5968", "WEB-5970", "WEB-6199", "WEB-6258",
+                    "WEB-6260", "WEB-6395"
+                ]
+            },
+            8: {
+                description: "Очень сложная задача, требующая много времени.",
+                tasks: ["WEB-5915"]
+            },
+            20: {
+                description: "Самая большая задача — техническое исследование.",
+                tasks: ["WEB-6338"]
+            },
+            noSP: {
+                description: "Задачи без оценки Story Points. Требуют приоритизации и оценки перед включением в спринт.",
+                tasks: [
+                    "WEB-1349", "WEB-1447", "WEB-1466", "WEB-2046", "WEB-2170", "WEB-2489",
+                    "WEB-2784", "WEB-2868", "WEB-2885", "WEB-3028", "WEB-3029", "WEB-3201",
+                    "WEB-3814", "WEB-4465", "WEB-5255", "WEB-5817", "WEB-5859", "WEB-5972",
+                    "WEB-6225", "WEB-6226", "WEB-6337"
+                ]
+            }
+        };
+
+        // Генерация карточек по Story Points
+        function generateSPCards() {
+            const container = document.getElementById('spCardsContainer');
+            if (!container) {
+                console.error('Контейнер spCardsContainer не найден');
+                return;
+            }
+            if (!tasksData) {
+                console.error('tasksData не определен');
+                return;
+            }
+            if (!tasksBySP) {
+                console.error('tasksBySP не определен');
+                return;
+            }
+            const spConfig = [{
+                value: 1,
+                color: '#00b894',
+                count: 32
+            }, {
+                value: 2,
+                color: '#0984e3',
+                count: 23
+            }, {
+                value: 3,
+                color: '#6c5ce7',
+                count: 7
+            }, {
+                value: 5,
+                color: '#fdcb6e',
+                count: 8
+            }, {
+                value: 8,
+                color: '#e17055',
+                count: 1
+            }, {
+                value: 20,
+                color: '#d63031',
+                count: 1
+            }, {
+                value: 'noSP',
+                color: '#95a5a6',
+                count: 21,
+                label: 'Без оценки'
+            }];
+
+            spConfig.forEach(({
+                        value,
+                        color,
+                        count,
+                        label
+                    }) => {
+                        try {
+                            const cardData = tasksBySP[value];
+
+                            // Для задач без SP не показываем totalSP
+                            const isNoSP = value === 'noSP';
+
+                            const card = document.createElement('div');
+                            // Карточка для задач без SP развернута по умолчанию
+                            card.className = isNoSP ? 'reason-card sp-card expanded' : 'reason-card sp-card';
+                            card.style.borderTopColor = color;
+                            card.dataset.sp = value;
+
+                            const tasks = (cardData && Array.isArray(cardData.tasks)) ? cardData.tasks : [];
+                            const actualCount = tasks.length || count; // Используем реальное количество задач или fallback
+
+                            const totalSP = isNoSP ? 0 : (typeof value === 'number' ? value * actualCount : 0);
+
+                            const taskWord = actualCount === 1 ? 'задача' : actualCount < 5 ? 'задачи' : 'задач';
+                            const headerText = isNoSP ? `${label || 'Без оценки'} — ${actualCount} ${taskWord}` : `${value} SP — ${actualCount} ${taskWord}`;
+
+                            card.innerHTML = `
+                    <span class="expand-icon ${isNoSP ? 'expanded' : ''}">▼</span>
+                    <h4>${headerText}</h4>
+                    <p>${cardData ? cardData.description : 'Задачи с данным объемом работы.'}</p>
+                    ${!isNoSP ? `<div style="margin-top: 10px; font-size: 12px; color: ${color}; font-weight: bold;">
+                        Итого: ${totalSP} SP
+                    </div>` : ''}
+                    <div class="sp-tasks-list" id="sp-tasks-${value}">
+                        ${tasks.length > 0 ? tasks.map(taskId => {
+                            const taskInfo = tasksData[taskId] || { title: "Описание отсутствует", priority: "Обычная" };
+                            const priority = taskInfo.priority.toLowerCase();
+                            return `
+                                <div class="sp-task-item">
+                                    <a href="https://bugs.uteka.ru/issue/${taskId}" target="_blank" class="sp-task-link">
+                                        ${taskId}
+                                    </a>
+                                    <span class="task-priority ${priority}" style="margin-left: 8px;">
+                                        ${taskInfo.priority}
+                                    </span>
+                                    <div class="sp-task-title">${taskInfo.title}</div>
+                                </div>
+                            `;
+                        }).join('') : `<div style="padding: 15px; text-align: center; color: #999; font-style: italic;">Список задач будет заполнен из данных CSV</div>`}
+                    </div>
+                    `;
+
+                    // Обработчик клика для разворачивания/сворачивания
+                    card.addEventListener('click', function(e) {
+                    // Не разворачиваем при клике на ссылку
+                    if (e.target.tagName === 'A') {
+                        return;
+                    }
+                    const wasExpanded = this.classList.contains('expanded');
+                    this.classList.toggle('expanded');
+                    
+                    // Обновляем иконку
+                    const icon = this.querySelector('.expand-icon');
+                    if (icon) {
+                        if (wasExpanded) {
+                            icon.classList.remove('expanded');
+                        } else {
+                            icon.classList.add('expanded');
+                        }
+                        }
+                    });
+
+                    container.appendChild(card);
+                } catch (error) {
+                    console.error(`Ошибка при создании карточки для ${value}:`, error);
+                }
+            });
+        }
+
+        // Генерируем карточки после загрузки всех данных
+        // Вызываем после создания таблицы, чтобы убедиться, что все данные готовы
+        setTimeout(function() {
+            try {
+                console.log('Генерация карточек SP...');
+                generateSPCards();
+                console.log('Карточки SP сгенерированы успешно');
+            } catch (e) {
+                console.error('Ошибка при генерации карточек SP:', e);
+                console.error(e.stack);
+            }
+        }, 100);
 
         // Таблица с разворачивающимися строками
         const tableBody = document.getElementById('tableBody');

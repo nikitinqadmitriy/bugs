@@ -205,9 +205,11 @@
         .reason-card {
             background: white;
             padding: 20px;
+            padding-right: 40px; /* Место для иконки expand */
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             border-top: 3px solid #667eea;
+            position: relative;
         }
         
         .reason-card h4 {
@@ -394,30 +396,6 @@
             text-decoration: underline;
         }
         
-        .task-priority {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        
-        .task-priority.обычная {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .task-priority.серьезная {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
-        .task-priority.критическая {
-            background: #ffebee;
-            color: #c62828;
-        }
-        
         .task-date {
             color: #666;
             font-size: 12px;
@@ -477,6 +455,7 @@
             right: 20px;
             font-size: 18px;
             transition: transform 0.3s;
+            z-index: 10;
         }
         
         .sp-card.expanded .expand-icon {
@@ -560,14 +539,22 @@
             margin-left: 5px;
         }
         
-        .priority-badge.high {
+        .priority-badge.high,
+        .priority-badge.highPriority {
             background: #fff3e0;
             color: #f57c00;
         }
         
-        .priority-badge.very-high {
-            background: #ffebee;
-            color: #c62828;
+        .priority-badge.very-high,
+        .priority-badge.veryHigh,
+        span.priority-badge.veryHigh,
+        .priority-task-item .priority-badge.veryHigh {
+            background: #ff1744 !important;
+            color: white !important;
+            font-weight: bold !important;
+            border: 1px solid #b72020 !important;
+            box-shadow: 0 2px 6px rgba(255, 23, 68, 0.4) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
         }
         
         /* Стили для категорий */
@@ -596,9 +583,13 @@
             color: #0277bd;
         }
         
-        .category-badge.real-bug {
-            background: #e3f2fd;
-            color: #1976d2;
+        .category-badge.real-bug,
+        .category-badge.realBug,
+        span.category-badge.realBug,
+        .priority-task-item .category-badge.realBug,
+        .sp-task-item .category-badge.realBug {
+            background: #ea9999 !important;
+            color: #ffffff !important;
         }
         
         .category-badge.admin {
@@ -610,6 +601,92 @@
             background: #e8f5e9;
             color: #388e3c;
         }
+        
+        /* Стили для списка задач по приоритету */
+        .priority-group {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .priority-group-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .priority-group-title.very-high {
+            color: #c62828;
+            border-bottom-color: #c62828;
+        }
+        
+        .priority-group-title.high {
+            color: #f57c00;
+            border-bottom-color: #f57c00;
+        }
+        
+        .priority-group-title.normal {
+            color: #757575;
+            border-bottom-color: #757575;
+        }
+        
+        .priority-symbol {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .priority-task-item {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .priority-task-item:hover {
+            background: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .priority-task-link {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0984e3;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .priority-task-link:hover {
+            text-decoration: underline;
+            color: #0770c4;
+        }
+        
+        .priority-task-title {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+            margin-top: 5px;
+        }
+        
         /* Мобильная адаптация */
         
         @media (max-width: 768px) {
@@ -809,6 +886,37 @@
             .reasons-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .tasks-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Мобильная адаптация для списка задач по приоритету */
+        @media (max-width: 768px) {
+            .priority-group {
+                padding: 15px;
+                margin-bottom: 25px;
+            }
+            .priority-group-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            .priority-symbol {
+                font-size: 20px;
+            }
+            .tasks-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .priority-task-item {
+                padding: 12px;
+            }
+            .priority-task-link {
+                font-size: 14px;
+            }
+            .priority-task-title {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -989,7 +1097,7 @@
                 </div>
 
                 <div class="metric-card" style="border-left-color: #42a5f5;">
-                    <div class="metric-label">Реально баг</div>
+                    <div class="metric-label">Реальный баг</div>
                     <div class="metric-value" id="categoryRealBug">58</div>
                     <div class="metric-change negative">требуют исправления</div>
                 </div>
@@ -1040,86 +1148,19 @@
                 <canvas id="barChart"></canvas>
             </div>
         </div>
+
+        <!-- Новая секция: Список всех задач по приоритету -->
+        <div class="overview-section" style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); margin-top: 40px;">
+            <h2>📊 Список всех задач по приоритету</h2>
+            <p class="subtitle" style="color: #2d3436; margin-bottom: 30px;">Полный список активных задач, отсортированных по приоритету</p>
+            
+            <div id="priorityTaskList">
+                <!-- Список задач будет сгенерирован через JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script>
-        // Функция для определения приоритета на основе анализа задачи (заниженные приоритеты)
-        function analyzePriority(taskId, title, description) {
-            const text = (title + ' ' + description).toLowerCase();
-
-            // Критическая: ТОЛЬКО действительно блокирующие проблемы
-            const criticalKeywords = [
-                'не работает оплата', 'не работает заказ', 'потеря данных', 'утечка данных',
-                'нельзя оформить заказ', 'нельзя оплатить', 'блокирует оформление',
-                'не работает выгрузка продаж', 'не работают выгрузки'
-            ];
-
-            // Серьезная: ТОЛЬКО серьезные проблемы, влияющие на основную функциональность
-            const seriousKeywords = [
-                'количество единиц товара в корзине отличается', 'товары конкурента',
-                'не работает авторизация сбер', 'не работает авторизация',
-                'не удалось загрузить карту', 'карта не загрузилась'
-            ];
-
-            // Проверка на критичность (очень строгие критерии)
-            for (const keyword of criticalKeywords) {
-                if (text.includes(keyword)) {
-                    return 'Критическая';
-                }
-            }
-
-            // Проверка на серьезность (тоже строгие критерии)
-            for (const keyword of seriousKeywords) {
-                if (text.includes(keyword)) {
-                    // Исключаем косметические проблемы
-                    if (text.includes('не по макету') || text.includes('размер') || text.includes('отступ')) {
-                        continue;
-                    }
-                    return 'Серьезная';
-                }
-            }
-
-            // Специальные случаи для критических
-            if (text.includes('не работают выгрузки продаж препаратов по дням')) {
-                return 'Критическая';
-            }
-
-            // Специальные случаи для серьезных
-            if (text.includes('не работает авторизация сбер в мобильной версии') &&
-                text.includes('бесконечный лоадер')) {
-                return 'Серьезная';
-            }
-
-            if (text.includes('товары конкурента') && text.includes('листинг')) {
-                return 'Серьезная';
-            }
-
-            if (text.includes('количество единиц товара в корзине отличается от количества на странице чекаута')) {
-                return 'Серьезная';
-            }
-
-            // Все остальное - Обычная (включая косметику, верстку, опечатки, мелкие баги)
-            const cosmeticKeywords = [
-                'не по макету', 'размер', 'отступ', 'тень', 'скругление', 'полупробел',
-                'опечатка', 'пробел', 'полоска', 'скролл', 'иконки', 'кнопки',
-                'баннер', 'текст', 'расположение', 'отображается', 'обрезается',
-                'моргает', 'подвисает', 'лагает', 'fps', 'скачет', 'позиционирование',
-                'верстка', 'макет', 'дизайн', 'стили', 'css', 'время отображается',
-                'query-параметр', 'кнопки для тестирования', 'заглушка', 'картинка',
-                'селектор', 'пагинация', 'хлебные крошки', 'tooltip', 'popover',
-                'шторка', 'sheet', 'фильтр', 'сортировка', 'админка', 'vt'
-            ];
-
-            // Если это косметическая проблема - всегда Обычная
-            for (const keyword of cosmeticKeywords) {
-                if (text.includes(keyword)) {
-                    return 'Обычная';
-                }
-            }
-
-            // По умолчанию - Обычная (низкий приоритет)
-            return 'Обычная';
-        }
 
         // Данные о задачах из CSV (ID задачи, заголовок, описание)
         const tasksDataRaw = {
@@ -1509,61 +1550,70 @@
                 name: 'Древнее/исследовать',
                 tasks: ['WEB-1349', 'WEB-2046', 'WEB-1740', 'WEB-2784', 'WEB-2868', 'WEB-3201', 'WEB-4716', 'WEB-5300', 'WEB-5972', 'WEB-5771'],
                 color: '#ffb74d',
-                icon: '🔍'
+                icon: '🔍 исследовать'
             },
             'browser': {
                 name: 'IE11/кросбраузер',
                 tasks: ['WEB-2170'],
                 color: '#64b5f6',
-                icon: '🌐'
+                icon: '🌐 браузер тест'
             },
             'realBug': {
-                name: 'Реально баг',
-                tasks: ['WEB-5955', 'WEB-6267', 'WEB-6258', 'WEB-6364', 'WEB-1683', 'WEB-3028', 'WEB-4465', 'WEB-5417', 'WEB-5392', 'WEB-5423', 'WEB-5594', 'WEB-4374', 'WEB-5669', 'WEB-5703', 'WEB-5667', 'WEB-5835', 'WEB-5859', 'WEB-5936', 'WEB-6011', 'WEB-6099', 'WEB-5777', 'WEB-5578', 'WEB-6142', 'WEB-6130', 'WEB-6157', 'WEB-6194', 'WEB-6179', 'WEB-6199', 'WEB-6250', 'WEB-6240', 'WEB-6228', 'WEB-5968', 'WEB-6246', 'WEB-5573', 'WEB-5428', 'WEB-6260', 'WEB-5973', 'WEB-6226', 'WEB-5969', 'WEB-6237', 'WEB-6336', 'WEB-6376', 'WEB-6365', 'WEB-6395', 'WEB-6337', 'WEB-6466', 'WEB-6459', 'WEB-5970', 'WEB-5924', 'WEB-6338', 'WEB-6141', 'WEB-6400', 'WEB-6463', 'WEB-6442', 'WEB-6464', 'WEB-6461', 'WEB-6450', 'WEB-5810'],
+                name: 'Реальный баг',
+                tasks: ['WEB-5955', 'WEB-6267', 'WEB-6258', 'WEB-6364', 'WEB-1683', 'WEB-3028', 'WEB-4465', 'WEB-5417', 'WEB-5392', 'WEB-5423', 'WEB-5594', 'WEB-4374', 'WEB-5669', 'WEB-5703', 'WEB-5667', 'WEB-5835', 'WEB-5859', 'WEB-5936', 'WEB-6011', 'WEB-6099', 'WEB-5777', 'WEB-5578', 'WEB-6142', 'WEB-6130', 'WEB-6157', 'WEB-6194', 'WEB-6179', 'WEB-6199', 'WEB-6250', 'WEB-6240', 'WEB-6225', 'WEB-6226', 'WEB-6228', 'WEB-5968', 'WEB-6246', 'WEB-5573', 'WEB-5428', 'WEB-6260', 'WEB-5973', 'WEB-5969', 'WEB-6237', 'WEB-6336', 'WEB-6376', 'WEB-6365', 'WEB-6395', 'WEB-6337', 'WEB-6466', 'WEB-6459', 'WEB-5970', 'WEB-5924', 'WEB-6338', 'WEB-6141', 'WEB-6400', 'WEB-6463', 'WEB-6442', 'WEB-6464', 'WEB-6461', 'WEB-6450', 'WEB-5810'],
                 color: '#42a5f5',
-                icon: '🐛'
+                icon: '🐛 реальный баг'
             },
             'admin': {
                 name: 'Админка',
                 tasks: ['WEB-6437', 'WEB-5255', 'WEB-6416'],
                 color: '#ab47bc',
-                icon: '⚙️'
+                icon: '⚙️ админка'
             },
             'email': {
                 name: 'Письма',
                 tasks: ['WEB-5457', 'WEB-5524', 'WEB-5708', 'WEB-5915', 'WEB-6059'],
                 color: '#66bb6a',
-                icon: '✉️'
+                icon: '✉️ письма'
             }
         };
 
-        // Приоритеты задач (! и !!)
+        // Приоритеты задач (высокий и очень высокий)
         const taskPriorities = {
+            'normal': {
+                symbol: '',
+                label: 'Обычный',
+                color: '#9e9e9e'
+            },
             'high': { // !
                 tasks: ['WEB-5423', 'WEB-5594', 'WEB-5859', 'WEB-5936', 'WEB-5578', 'WEB-6179', 'WEB-6228', 'WEB-5969', 'WEB-6237', 'WEB-6466', 'WEB-6459', 'WEB-6442'],
-                symbol: '!',
-                label: 'Высокий'
+                symbol: 'Высокий',
+                label: 'Высокий',
+                color: '#f50013'
             },
-            'veryHigh': { // !!
+            'veryHigh': { // Очень высокий
                 tasks: ['WEB-6011', 'WEB-6099', 'WEB-6199', 'WEB-6376', 'WEB-6337', 'WEB-6461', 'WEB-5810'],
-                symbol: '!!',
-                label: 'Очень высокий'
+                symbol: 'Очень высокий',
+                label: 'Очень высокий',
+                color: '#ff1744'
             }
         };
 
-        // Создаем объект с вычисленными приоритетами
+        // Функция для определения приоритета задачи
+        function getTaskPriority(taskId) {
+            if (taskPriorities.veryHigh.tasks.includes(taskId)) {
+                return 'veryHigh';
+            } else if (taskPriorities.high.tasks.includes(taskId)) {
+                return 'high';
+            }
+            return 'normal';
+        }
+
+        // Создаем объект с данными задач
         const tasksData = {};
         for (const [taskId, data] of Object.entries(tasksDataRaw)) {
-            // Определяем приоритет
-            let priority = analyzePriority(taskId, data.title, data.description);
-            
-            // Определяем визуальный приоритет (! или !!)
-            let visualPriority = null;
-            if (taskPriorities.veryHigh.tasks.includes(taskId)) {
-                visualPriority = 'veryHigh';
-            } else if (taskPriorities.high.tasks.includes(taskId)) {
-                visualPriority = 'high';
-            }
+            // Определяем приоритет на основе восклицательных знаков
+            const priority = getTaskPriority(taskId);
             
             // Определяем категорию (приоритет: админка и письма выше, чем реально баг)
             let category = null;
@@ -1578,7 +1628,6 @@
             tasksData[taskId] = {
                 priority: priority,
                 title: data.title,
-                visualPriority: visualPriority,
                 category: category
             };
         }
@@ -1854,7 +1903,7 @@
         const backlogCtx = document.getElementById('backlogChart').getContext('2d');
         new Chart(backlogCtx, {
             type: 'line',
-                data: {
+            data: {
                 labels: ['Ноя 2024', 'Дек 2024', 'Янв 2025', 'Фев 2025', 'Мар 2025', 'Апр 2025', 'Май 2025', 'Июн 2025', 'Июл 2025', 'Авг 2025', 'Сен 2025', 'Окт 2025', 'Ноя 2025'],
                 datasets: [{
                     label: 'Backlog (количество активных багов)',
@@ -2141,11 +2190,11 @@
                     </div>` : ''}
                     <div class="sp-tasks-list" id="sp-tasks-${value}">
                         ${tasks.length > 0 ? tasks.map(taskId => {
-                            const taskInfo = tasksData[taskId] || { title: "Описание отсутствует", priority: "Обычная", visualPriority: null, category: null };
-                            const priority = taskInfo.priority.toLowerCase();
-                            const visualPriority = taskInfo.visualPriority;
-                            const priorityBadge = visualPriority ? 
-                                `<span class="priority-badge ${visualPriority}" title="${taskPriorities[visualPriority].label} приоритет">${taskPriorities[visualPriority].symbol}</span>` : '';
+                            const taskInfo = tasksData[taskId] || { title: "Описание отсутствует", priority: "normal", category: null };
+                            const priority = taskInfo.priority;
+                            const priorityData = taskPriorities[priority] || taskPriorities.normal;
+                            const priorityBadge = priority !== 'normal' ? 
+                                `<span class="priority-badge ${priority}" title="${priorityData.label} приоритет">${priorityData.symbol}</span>` : '';
                             const categoryBadge = taskInfo.category && taskCategories[taskInfo.category] ? 
                                 `<span class="category-badge ${taskInfo.category}" title="${taskCategories[taskInfo.category].name}">${taskCategories[taskInfo.category].icon}</span>` : '';
                             return `
@@ -2154,9 +2203,6 @@
                                         ${taskId}
                                     </a>
                                     ${priorityBadge}
-                                    <span class="task-priority ${priority}" style="margin-left: 8px;">
-                                        ${taskInfo.priority}
-                                    </span>
                                     ${categoryBadge}
                                     <div class="sp-task-title">${taskInfo.title}</div>
                                 </div>
@@ -2217,11 +2263,11 @@
                         <p>Задачи, относящиеся к категории "${catData.name}"</p>
                         <div class="sp-tasks-list" id="category-tasks-${key}">
                             ${tasks.length > 0 ? tasks.map(taskId => {
-                                const taskInfo = tasksData[taskId] || { title: "Описание отсутствует", priority: "Обычная" };
-                                const priority = taskInfo.priority.toLowerCase();
-                                const visualPriority = taskInfo.visualPriority;
-                                const priorityBadge = visualPriority ? 
-                                    `<span class="priority-badge ${visualPriority}" title="${taskPriorities[visualPriority].label} приоритет">${taskPriorities[visualPriority].symbol}</span>` : '';
+                                const taskInfo = tasksData[taskId] || { title: "Описание отсутствует", priority: "normal", category: null };
+                                const priority = taskInfo.priority;
+                                const priorityData = taskPriorities[priority] || taskPriorities.normal;
+                                const priorityBadge = priority !== 'normal' ? 
+                                    `<span class="priority-badge ${priority}" title="${priorityData.label} приоритет">${priorityData.symbol}</span>` : '';
                                 
                                 return `
                                     <div class="sp-task-item">
@@ -2229,9 +2275,6 @@
                                             ${taskId}
                                         </a>
                                         ${priorityBadge}
-                                        <span class="task-priority ${priority}" style="margin-left: 8px;">
-                                            ${taskInfo.priority}
-                                        </span>
                                         <div class="sp-task-title">${taskInfo.title}</div>
                                     </div>
                                 `;
@@ -2280,8 +2323,16 @@
             }
         }, 100);
 
-        // Таблица с разворачивающимися строками
+        // Функция генерации таблицы с разворачивающимися строками
+        function generateTable() {
         const tableBody = document.getElementById('tableBody');
+            if (!tableBody) {
+                console.error('Контейнер tableBody не найден');
+                return;
+            }
+
+            // Очищаем таблицу перед заполнением
+            tableBody.innerHTML = '';
 
         sortedRanges.forEach(([rangeName, count]) => {
             const percentage = ((count / totalTasks) * 100).toFixed(1);
@@ -2323,12 +2374,12 @@
 
                 // Получаем данные о задаче
                 const taskInfo = tasksData[taskId] || {
-                    priority: "Обычная",
+                    priority: "normal",
                     title: "Описание отсутствует",
-                    visualPriority: null,
                     category: null
                 };
-                const priority = taskInfo.priority.toLowerCase();
+                const priority = taskInfo.priority;
+                const priorityData = taskPriorities[priority] || taskPriorities.normal;
 
                 // Заголовок задачи с приоритетом
                 const taskHeader = document.createElement('div');
@@ -2340,18 +2391,14 @@
                 link.className = 'task-link';
                 link.textContent = taskId;
 
-                // Добавляем визуальный приоритет (! или !!)
-                if (taskInfo.visualPriority) {
-                    const visualPriorityBadge = document.createElement('span');
-                    visualPriorityBadge.className = `priority-badge ${taskInfo.visualPriority}`;
-                    visualPriorityBadge.textContent = taskPriorities[taskInfo.visualPriority].symbol;
-                    visualPriorityBadge.title = `${taskPriorities[taskInfo.visualPriority].label} приоритет`;
-                    taskHeader.appendChild(visualPriorityBadge);
-                }
-
+                // Добавляем приоритет (высокий или очень высокий) только если не обычный
+                if (priority !== 'normal') {
                 const priorityBadge = document.createElement('span');
-                priorityBadge.className = `task-priority ${priority}`;
-                priorityBadge.textContent = taskInfo.priority;
+                    priorityBadge.className = `priority-badge ${priority}`;
+                    priorityBadge.textContent = priorityData.symbol;
+                    priorityBadge.title = `${priorityData.label} приоритет`;
+                    taskHeader.appendChild(priorityBadge);
+                }
 
                 // Добавляем категорию, если есть
                 if (taskInfo.category && taskCategories[taskInfo.category]) {
@@ -2367,7 +2414,6 @@
                 dateSpan.textContent = `(${dateStr})`;
 
                 taskHeader.appendChild(link);
-                taskHeader.appendChild(priorityBadge);
                 taskHeader.appendChild(dateSpan);
 
                 // Описание задачи
@@ -2398,6 +2444,32 @@
             tableBody.appendChild(row);
             tableBody.appendChild(taskRow);
         });
+        }
+
+        // Вызываем генерацию таблицы после загрузки всех данных
+        setTimeout(() => {
+            try {
+                // Проверяем, что все необходимые переменные определены
+                if (typeof sortedRanges !== 'undefined' && typeof tasksByRange !== 'undefined' && typeof tasksData !== 'undefined' && typeof totalTasks !== 'undefined') {
+                    console.log('Генерация таблицы...');
+                    generateTable();
+                    console.log('Таблица сгенерирована');
+                } else {
+                    console.warn('Не все переменные для таблицы определены. Повторная попытка через 300ms...');
+                    setTimeout(() => {
+                        try {
+                            generateTable();
+                        } catch (e) {
+                            console.error('Ошибка при генерации таблицы:', e);
+                            console.error('Stack:', e.stack);
+                        }
+                    }, 300);
+                }
+            } catch (e) {
+                console.error('Ошибка при генерации таблицы:', e);
+                console.error('Stack:', e.stack);
+            }
+        }, 250);
 
         // Подготовка данных для графиков
         const labels = sortedRanges.map(([name]) => name);
@@ -2502,6 +2574,166 @@
                 }
             }
         });
+
+        // Генерация списка всех задач по приоритету
+        function generatePriorityTaskList() {
+            const container = document.getElementById('priorityTaskList');
+            if (!container) {
+                console.error('Контейнер priorityTaskList не найден');
+                return;
+            }
+
+            // Собираем все активные задачи (исключая невоспроизводимые)
+            const notReproducibleTasks = taskCategories.notReproducible.tasks || [];
+            const allActiveTasks = activeTasks.map(([taskId]) => taskId);
+
+            // Группируем задачи по приоритету
+            const tasksByPriority = {
+                veryHigh: [],
+                high: [],
+                normal: []
+            };
+
+            allActiveTasks.forEach(taskId => {
+                const priority = getTaskPriority(taskId);
+                const taskInfo = tasksData[taskId] || { title: "Описание отсутствует", priority: "normal", category: null };
+                
+                tasksByPriority[priority].push({
+                    taskId: taskId,
+                    priority: priority,
+                    title: taskInfo.title,
+                    category: taskInfo.category
+                });
+            });
+
+            // Сортируем задачи внутри каждой группы по ID
+            Object.keys(tasksByPriority).forEach(priority => {
+                tasksByPriority[priority].sort((a, b) => {
+                    const numA = parseInt(a.taskId.replace('WEB-', ''));
+                    const numB = parseInt(b.taskId.replace('WEB-', ''));
+                    return numA - numB;
+                });
+            });
+
+            // Генерируем HTML
+            let html = '';
+
+            // Очень высокий приоритет
+            if (tasksByPriority.veryHigh.length > 0) {
+                html += `
+                    <div class="priority-group">
+                        <h3 class="priority-group-title very-high">
+                            <span class="priority-symbol">🟥</span>
+                            Очень высокий приоритет — ${tasksByPriority.veryHigh.length} ${tasksByPriority.veryHigh.length === 1 ? 'задача' : tasksByPriority.veryHigh.length < 5 ? 'задачи' : 'задач'}
+                        </h3>
+                        <div class="tasks-grid">
+                            ${tasksByPriority.veryHigh.map(task => {
+                                const priorityData = taskPriorities[task.priority] || taskPriorities.normal;
+                                const categoryBadge = task.category && taskCategories[task.category] ? 
+                                    `<span class="category-badge ${task.category}" title="${taskCategories[task.category].name}">${taskCategories[task.category].icon}</span>` : '';
+                                return `
+                                    <div class="priority-task-item">
+                                        <a href="https://bugs.uteka.ru/issue/${task.taskId}" target="_blank" class="priority-task-link">
+                                            ${task.taskId}
+                                        </a>
+                                        <span class="priority-badge ${task.priority}" title="${priorityData.label} приоритет">${priorityData.symbol}</span>
+                                        ${categoryBadge}
+                                        <div class="priority-task-title">${task.title}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Высокий приоритет
+            if (tasksByPriority.high.length > 0) {
+                html += `
+                    <div class="priority-group">
+                        <h3 class="priority-group-title high">
+                            <span class="priority-symbol">🟡</span>
+                            Высокий приоритет — ${tasksByPriority.high.length} ${tasksByPriority.high.length === 1 ? 'задача' : tasksByPriority.high.length < 5 ? 'задачи' : 'задач'}
+                        </h3>
+                        <div class="tasks-grid">
+                            ${tasksByPriority.high.map(task => {
+                                const priorityData = taskPriorities[task.priority] || taskPriorities.normal;
+                                const categoryBadge = task.category && taskCategories[task.category] ? 
+                                    `<span class="category-badge ${task.category}" title="${taskCategories[task.category].name}">${taskCategories[task.category].icon}</span>` : '';
+                                return `
+                                    <div class="priority-task-item">
+                                        <a href="https://bugs.uteka.ru/issue/${task.taskId}" target="_blank" class="priority-task-link">
+                                            ${task.taskId}
+                                        </a>
+                                        <span class="priority-badge ${task.priority}" title="${priorityData.label} приоритет">${priorityData.symbol}</span>
+                                        ${categoryBadge}
+                                        <div class="priority-task-title">${task.title}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Обычный приоритет
+            if (tasksByPriority.normal.length > 0) {
+                html += `
+                    <div class="priority-group">
+                        <h3 class="priority-group-title normal">
+                            <span class="priority-symbol"></span>
+                            Обычный приоритет — ${tasksByPriority.normal.length} ${tasksByPriority.normal.length === 1 ? 'задача' : tasksByPriority.normal.length < 5 ? 'задачи' : 'задач'}
+                        </h3>
+                        <div class="tasks-grid">
+                            ${tasksByPriority.normal.map(task => {
+                                const categoryBadge = task.category && taskCategories[task.category] ? 
+                                    `<span class="category-badge ${task.category}" title="${taskCategories[task.category].name}">${taskCategories[task.category].icon}</span>` : '';
+                                return `
+                                    <div class="priority-task-item">
+                                        <a href="https://bugs.uteka.ru/issue/${task.taskId}" target="_blank" class="priority-task-link">
+                                            ${task.taskId}
+                                        </a>
+                                        ${categoryBadge}
+                                        <div class="priority-task-title">${task.title}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Вызываем генерацию списка задач после загрузки всех данных
+        setTimeout(() => {
+            try {
+                // Проверяем, что все необходимые переменные определены
+                if (typeof activeTasks !== 'undefined' && typeof tasksData !== 'undefined' && typeof taskCategories !== 'undefined' && typeof getTaskPriority !== 'undefined') {
+                    console.log('Генерация списка задач по приоритету...');
+                    generatePriorityTaskList();
+                    console.log('Список задач по приоритету сгенерирован');
+                } else {
+                    console.warn('Не все переменные определены. Повторная попытка через 500ms...');
+                    console.log('activeTasks:', typeof activeTasks);
+                    console.log('tasksData:', typeof tasksData);
+                    console.log('taskCategories:', typeof taskCategories);
+                    console.log('getTaskPriority:', typeof getTaskPriority);
+                    setTimeout(() => {
+                        try {
+                            generatePriorityTaskList();
+                        } catch (e) {
+                            console.error('Ошибка при генерации списка задач по приоритету:', e);
+                            console.error('Stack:', e.stack);
+                        }
+                    }, 500);
+                }
+            } catch (e) {
+                console.error('Ошибка при генерации списка задач по приоритету:', e);
+                console.error('Stack:', e.stack);
+            }
+        }, 500);
     </script>
 </body>
 

@@ -1035,7 +1035,7 @@
             <div class="overview-grid">
                 <div class="metric-card success" style="border-left-color: #00b894;">
                     <div class="metric-label">Всего Story Points</div>
-                    <div class="metric-value" id="totalSP">173</div>
+                    <div class="metric-value" id="totalSP">170</div>
                     <div class="metric-change negative">Story Points для всех задач</div>
                 </div>
 
@@ -1047,7 +1047,7 @@
 
                 <div class="metric-card warning" style="border-left-color: #fdcb6e;">
                     <div class="metric-label">Задач с оценкой</div>
-                    <div class="metric-value" id="tasksWithSP">76</div>
+                    <div class="metric-value" id="tasksWithSP">75</div>
                     <div class="metric-change negative">из 93 задач</div>
                 </div>
 
@@ -1075,7 +1075,7 @@
             <div class="recommendations" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); margin-top: 30px;">
                 <h3 style="color: #e65100;">💡 Рекомендации по планированию</h3>
                 <ul>
-                    <li>Для закрытия всех багов потребуется примерно <strong>173 Story Points</strong> работы</li>
+                    <li>Для закрытия всех багов потребуется примерно <strong>170 Story Points</strong> работы</li>
                     <li>Если команда закрывает в среднем 20 SP в спринт, потребуется около <strong>9 спринтов</strong></li>
                     <li>Рекомендуется начать с задач по 1-2 SP для быстрого эффекта</li>
                     <li>Задачу на 20 SP (WEB-6338) лучше планировать отдельно как исследование</li>
@@ -1110,7 +1110,7 @@
 
                 <div class="metric-card" style="border-left-color: #ab47bc;">
                     <div class="metric-label">Админка</div>
-                    <div class="metric-value" id="categoryAdmin">2</div>
+                    <div class="metric-value" id="categoryAdmin">1</div>
                     <div class="metric-change negative">админка VT</div>
                 </div>
             </div>
@@ -1215,10 +1215,6 @@
             "WEB-6400": {
                 title: "Отображается бесконечный лоадер на карте",
                 description: "воспроизводится только если пользователь попадает на капчу на карте\nФР: отображается бесконечный лоадер\nОР: карта подгружается успешно"
-            },
-            "WEB-6416": {
-                title: "Время отображается +3 часа",
-                description: "В блоках \"Смс и действия по номеру телефона\" отображается время +3часа"
             },
             "WEB-6437": {
                 title: "VT: Починить селектор интеграций",
@@ -1580,12 +1576,6 @@
                 color: '#ffb74d',
                 icon: '🔍 исследовать'
             },
-            'browser': {
-                name: 'IE11/кросбраузер',
-                tasks: [],
-                color: '#64b5f6',
-                icon: '🌐 браузер тест'
-            },
             'realBug': {
                 name: 'Реальный баг',
                 tasks: ['WEB-5955', 'WEB-6486', 'WEB-6487', 'WEB-6267', 'WEB-6258', 'WEB-6364', 'WEB-1683', 'WEB-3028', 'WEB-4465', 'WEB-5417', 'WEB-5392', 'WEB-5423', 'WEB-5594', 'WEB-4374', 'WEB-5669', 'WEB-5703', 'WEB-5667', 'WEB-5835', 'WEB-5859', 'WEB-5936', 'WEB-6011', 'WEB-6099', 'WEB-5777', 'WEB-5578', 'WEB-6142', 'WEB-6130', 'WEB-6157', 'WEB-6194', 'WEB-6179', 'WEB-6199', 'WEB-6250', 'WEB-6240', 'WEB-6225', 'WEB-6226', 'WEB-6228', 'WEB-5968', 'WEB-6246', 'WEB-5573', 'WEB-5428', 'WEB-6260', 'WEB-5973', 'WEB-6237', 'WEB-6336', 'WEB-6376', 'WEB-6365', 'WEB-6395', 'WEB-6337', 'WEB-6466', 'WEB-6459', 'WEB-5970', 'WEB-5924', 'WEB-6338', 'WEB-6141', 'WEB-6400', 'WEB-6463', 'WEB-6442', 'WEB-6464', 'WEB-6461', 'WEB-6450', 'WEB-5810'],
@@ -1594,7 +1584,7 @@
             },
             'admin': {
                 name: 'Админка',
-                tasks: ['WEB-6437', 'WEB-6416'],
+                tasks: ['WEB-6437'],
                 color: '#ab47bc',
                 icon: '⚙️ админка'
             },
@@ -1645,7 +1635,7 @@
             
             // Определяем категорию (приоритет: админка и письма выше, чем реально баг)
             let category = null;
-            const priorityOrder = ['notReproducible', 'ancient', 'browser', 'admin', 'email', 'realBug'];
+            const priorityOrder = ['notReproducible', 'ancient', 'admin', 'email', 'realBug'];
             for (const catKey of priorityOrder) {
                 if (taskCategories[catKey] && taskCategories[catKey].tasks.includes(taskId)) {
                     category = catKey;
@@ -1730,7 +1720,6 @@
             ["WEB-6376", "19 окт. 2025"],
             ["WEB-6395", "28 окт. 2025"],
             ["WEB-6400", "29 окт. 2025"],
-            ["WEB-6416", "8 нояб. 2025"],
             ["WEB-6442", "11 нояб. 2025"],
             ["WEB-6450", "14 нояб. 2025"],
             ["WEB-6459", "20 нояб. 2025"],
@@ -2064,9 +2053,9 @@
 
         // Анимация чисел для Story Points
         setTimeout(() => {
-            animateValue(document.getElementById('totalSP'), 0, 173, 1500);
+            animateValue(document.getElementById('totalSP'), 0, 170, 1500);
             animateValueFloat(document.getElementById('avgSP'), 0, 2.3, 1500);
-            animateValue(document.getElementById('tasksWithSP'), 0, 76, 1500);
+            animateValue(document.getElementById('tasksWithSP'), 0, 75, 1500);
             animateValue(document.getElementById('tasksWithoutSP'), 0, 7, 1500);
         }, 800);
 
@@ -2080,7 +2069,7 @@
             if (notRepCat) animateValue(notRepCat, 0, 20, 1000);
             if (realBugCat) animateValue(realBugCat, 0, 60, 1000);
             if (ancientCat) animateValue(ancientCat, 0, 7, 1000);
-            if (adminCat) animateValue(adminCat, 0, 2, 1000);
+            if (adminCat) animateValue(adminCat, 0, 1, 1000);
         }, 1200);
 
         // Структура данных с задачами по Story Points
@@ -2109,7 +2098,7 @@
             3: {
                 description: "Более сложные задачи, требующие больше работы.",
                 tasks: [
-                    "WEB-1349", "WEB-5392", "WEB-5835", "WEB-5973", "WEB-6011", "WEB-6267", "WEB-6416",
+                    "WEB-1349", "WEB-5392", "WEB-5835", "WEB-5973", "WEB-6011", "WEB-6267",
                     "WEB-6459"
                 ]
             },
@@ -2163,7 +2152,7 @@
             }, {
                 value: 3,
                 color: '#6c5ce7',
-                count: 8
+                count: 7
             }, {
                 value: 5,
                 color: '#fdcb6e',
@@ -2202,7 +2191,8 @@
                             card.dataset.sp = value;
 
                             const tasks = (cardData && Array.isArray(cardData.tasks)) ? cardData.tasks : [];
-                            const actualCount = tasks.length || count; // Используем реальное количество задач или fallback
+                            // Используем реальное количество задач из массива (обновлено 04.12.2025)
+                            const actualCount = tasks.length || count;
 
                             const totalSP = isNoSP ? 0 : (typeof value === 'number' ? value * actualCount : 0);
 
@@ -2344,10 +2334,13 @@
 
                     const tasks = catData.tasks || [];
                     const taskWord = tasks.length === 1 ? 'задача' : tasks.length < 5 ? 'задачи' : 'задач';
+                    
+                    // Извлекаем только эмодзи из icon (берем первый символ до пробела)
+                    const iconEmoji = catData.icon ? catData.icon.split(' ')[0] : '';
 
                     card.innerHTML = `
                         <span class="expand-icon">▼</span>
-                        <h4>${catData.icon} ${catData.name} — ${tasks.length} ${taskWord}</h4>
+                        <h4>${iconEmoji} ${catData.name} — ${tasks.length} ${taskWord}</h4>
                         <p>Задачи, относящиеся к категории "${catData.name}"</p>
                         <div class="sp-tasks-list" id="category-tasks-${key}">
                             ${tasks.length > 0 ? tasks.map(taskId => {
